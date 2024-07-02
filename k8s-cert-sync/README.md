@@ -18,7 +18,7 @@ Define your playbook that uses this role. For example, create a playbook named s
 ---
 - hosts: k8-master1
   roles:
-    - copy_kube_config
+    - k8-cert-sync
 
 
 
