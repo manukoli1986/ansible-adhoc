@@ -1,0 +1,9 @@
+[Unit]
+Description=Run K8s Certificate Sync Service every Friday
+
+[Timer]
+OnCalendar=Fri *-*-* 00:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
