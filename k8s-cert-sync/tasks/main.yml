@@ -1,13 +1,15 @@
 ---
-# tasks file for k8s-cert-sync
----
-- name: Copy the kube config script to the target machine
+- name: Copy copy_kube_config.sh to k8-master server
   copy:
     src: copy_kube_config.sh
     dest: /tmp/copy_kube_config.sh
-    mode: '0755'
 
-- name: Execute the kube config script
-  command: /tmp/copy_kube_config.sh
-  become: true
+- name: Create systemd service file
+  template:
+    src: k8s-cert-sync.service.j2
+    dest: /etc/systemd/system/k8s-cert-sync.service
 
+- name: Create systemd timer file
+  template:
+    src: k8s-cert-sync.timer.j2
+    dest: /etc/systemd/system/k8s-cert-sync.timer
