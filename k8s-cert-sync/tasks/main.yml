@@ -2,7 +2,7 @@
 - name: Copy copy_kube_config.sh to k8-master server
   copy:
     src: copy_kube_config.sh
-    dest: /tmp/copy_kube_config.sh
+    dest: /usr/local/bin/copy_kube_config.sh
 
 - name: Create systemd service file
   template:
