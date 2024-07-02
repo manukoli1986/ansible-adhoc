@@ -3,7 +3,7 @@ Description=K8s Certificate Sync Service
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash /tmp/copy_kube_config.sh
+ExecStart=/bin/bash /usr/local/bin/copy_kube_config.sh
 
 [Install]
 WantedBy=multi-user.target
