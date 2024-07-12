@@ -1,4 +1,3 @@
----
 - name: Copy copy_kube_config.sh to k8-master server
   copy:
     src: copy_kube_config.sh
