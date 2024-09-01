@@ -7,7 +7,12 @@ Define your playbook that uses this role. For example, create a playbook named s
 ---
 - hosts: k8-master1
   roles:
-    - k8-cert-sync
+    - roles: k8s-cert-sync
+
+    - role: check_domain_availability
+      vars:
+        domain_name: "anotherdomain.com"
+        adcli_options: "--verbose"
 
 
 
