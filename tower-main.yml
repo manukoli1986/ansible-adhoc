@@ -1,0 +1,13 @@
+---
+- hosts: k8-master1
+  roles:
+    - k8-cert-sync
+
+- hosts: all
+  gather_facts: no
+  roles:
+  
+    - role: check_domain_availability
+      vars:
+        domain_name: "mydomain.com"
+        adcli_options: "--verbose"

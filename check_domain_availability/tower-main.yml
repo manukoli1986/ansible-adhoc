@@ -1,8 +1,0 @@
----
-- hosts: all
-  gather_facts: no
-  roles:
-    - role: test_domain_availability
-      vars:
-        domain_name: "anotherdomain.com"
-        adcli_options: "--verbose"
