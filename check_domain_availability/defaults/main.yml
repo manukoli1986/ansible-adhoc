@@ -1,0 +1,6 @@
+---
+# Domain to check availability
+domain_name: "yourdomain.com"
+
+# Command options for adcli
+adcli_options: "--verbose"

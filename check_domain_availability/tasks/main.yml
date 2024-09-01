@@ -1,0 +1,29 @@
+---
+- name: Check domain availability
+  command: >
+    adcli info {{ domain_name }} {{ adcli_options }}
+  register: adcli_result
+  ignore_errors: true
+
+- name: Handle domain availability
+  block:
+    - name: Domain is available
+      debug:
+        msg: "Domain {{ domain_name }} is available."
+    
+    - name: Continue with other tasks if needed
+      debug:
+        msg: "Proceeding with additional tasks..."
+    
+  when: adcli_result.rc == 0
+
+- name: Handle domain unavailability
+  block:
+    - name: Domain is unavailable
+      debug:
+        msg: "Domain {{ domain_name }} is unavailable!"
+
+    - name: Fail the playbook if domain is unavailable
+      fail:
+        msg: "Domain {{ domain_name }} is unavailable! Exiting..."
+  when: adcli_result.rc != 0
