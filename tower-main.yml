@@ -1,13 +1,15 @@
 ---
-- hosts: k8-master1
-  roles:
-    - k8-cert-sync
-
 - hosts: all
+  become: yes
   gather_facts: no
+  vars:
+    domain_name: "athena.com"  # Define your domain name here
+
   roles:
-  
+    - roles: k8s-cert-sync
+
     - role: check_domain_availability
       vars:
-        domain_name: "mydomain.com"
+        domain_name: "anotherdomain.com"
         adcli_options: "--verbose"
+
