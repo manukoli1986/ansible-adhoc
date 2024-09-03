@@ -1,4 +1,16 @@
 ---
+- name: Check if adcli is installed
+  command: which adcli
+  register: adcli_check
+  ignore_errors: true
+
+- name: Install adcli if not present
+  yum:
+    name: adcli
+    state: present
+    update_cache: true
+  become: true
+
 - name: Check domain availability
   command: >
     adcli info {{ domain_name }} {{ adcli_options }}
