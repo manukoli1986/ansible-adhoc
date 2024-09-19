@@ -12,4 +12,15 @@
       vars:
         domain_name: "anotherdomain.com"
         adcli_options: "--verbose"
+    - role: test_db
+      vars:
+        db_package: mariadb-server
+        db_user: root
+        db_password: password
+        db_host: localhost
+        db_name: test_db
+        db_table: test_table
+        test_column: test_column
+        test_data: test_data_123
+
 

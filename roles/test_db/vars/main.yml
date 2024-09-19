@@ -1,0 +1,26 @@
+---
+---
+# List of databases and associated VMs
+databases:
+  - name: db1
+    host: 192.168.1.10
+    user: root
+    password: password1
+    table: test_table
+    test_column: test_column
+    test_data: test_data_db1
+  - name: db2
+    host: 192.168.1.11
+    user: root
+    password: password2
+    table: test_table
+    test_column: test_column
+    test_data: test_data_db2
+  - name: db3
+    host: 192.168.1.12
+    user: root
+    password: password3
+    table: test_table
+    test_column: test_column
+    test_data: test_data_db3
+
