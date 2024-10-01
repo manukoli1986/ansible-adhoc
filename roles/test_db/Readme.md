@@ -12,6 +12,14 @@ Acceptance Criteria:
 2. This rile will be written in such a way that by providing different variables you can run it on different tools without changing the role itself.
 
 
+## Key Changes:
+FQCN usage: The community.mysql.mysql_query module is used for all database operations (insert, select, delete).
+
+login_unix_socket added: This is included in case you face connection issues with MariaDB, allowing for a more explicit protocol definition.
+
+Better variable structure: The vars file now supports multiple databases with different credentials and specific details for each host.
+
+With these updates, you can more efficiently manage MariaDB databases on different hosts. 
 
 
 #### Sample
