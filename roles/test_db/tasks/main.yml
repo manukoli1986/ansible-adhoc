@@ -3,9 +3,6 @@
   ansible.builtin.package:
     name: mariadb-server
     state: present
-  with_items: "{{ databases }}"
-  loop_control:
-    loop_var: db
 
 - name: Iterate over each database and perform read/write/delete operations
   block:

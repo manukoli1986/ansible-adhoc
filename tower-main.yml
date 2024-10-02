@@ -12,15 +12,16 @@
       vars:
         domain_name: "anotherdomain.com"
         adcli_options: "--verbose"
-    - role: test_db
-      vars:
-        db_package: mariadb-server
-        db_user: root
-        db_password: password
-        db_host: localhost
-        db_name: test_db
-        db_table: test_table
-        test_column: test_column
-        test_data: test_data_123
 
 
+---
+- name: Deploy and manage MariaDB across multiple hosts
+  hosts: db_servers
+  become: true  # To run with sudo if needed
+  gather_facts: yes
+
+  vars_files:
+    - vars/var.yml  # Dynamic variables for databases
+
+  roles:
+    - role: test_db  # Replace with your actual role name
