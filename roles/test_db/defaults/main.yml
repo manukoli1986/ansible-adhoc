@@ -1,9 +1,0 @@
----
-# Default database values (can be overridden)
-db_user: root
-db_password: root_password
-db_host: localhost
-db_name: test_db
-db_table: test_table
-test_column: test_column
-test_data: test_data_123
