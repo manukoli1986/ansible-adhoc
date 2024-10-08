@@ -1,0 +1,52 @@
+---
+- name: Iterate over each MariaDB instance and perform operations
+  block:
+    - name: Insert a test row into the database on {{ db_info.ip }}
+      community.mysql.mysql_query:
+        login_user: "{{ db_info.user }}"
+        login_password: "{{ db_info.password }}"
+        login_host: "{{ db_info.ip }}"
+        db: "{{ db_info.db_name }}"
+        query: "INSERT INTO {{ db_info.db_table }} (test_column) VALUES ('test_data');"
+
+    - name: Select the test row from the database on {{ db_info.ip }}
+      community.mysql.mysql_query:
+        login_user: "{{ db_info.user }}"
+        login_password: "{{ db_info.password }}"
+        login_host: "{{ db_info.ip }}"
+        db: "{{ db_info.db_name }}"
+        query: "SELECT test_column FROM {{ db_info.db_table }} WHERE test_column = 'test_data';"
+      register: query_result
+
+    - name: Verify the data was inserted correctly on {{ db_info.ip }}
+      ansible.builtin.assert:
+        that:
+          - query_result.rowcount == 1
+        fail_msg: "Failed to find the inserted data in the database on {{ db_info.ip }}."
+
+    - name: Delete the test row from the database on {{ db_info.ip }}
+      community.mysql.mysql_query:
+        login_user: "{{ db_info.user }}"
+        login_password: "{{ db_info.password }}"
+        login_host: "{{ db_info.ip }}"
+        db: "{{ db_info.db_name }}"
+        query: "DELETE FROM {{ db_info.db_table }} WHERE test_column = 'test_data';"
+
+    - name: Ensure the data was deleted on {{ db_info.ip }}
+      community.mysql.mysql_query:
+        login_user: "{{ db_info.user }}"
+        login_password: "{{ db_info.password }}"
+        login_host: "{{ db_info.ip }}"
+        db: "{{ db_info.db_name }}"
+        query: "SELECT test_column FROM {{ db_info.db_table }} WHERE test_column = 'test_data';"
+      register: delete_check
+
+    - name: Verify the data was deleted on {{ db_info.ip }}
+      ansible.builtin.assert:
+        that:
+          - delete_check.rowcount == 0
+        fail_msg: "Failed to delete the test data from the database on {{ db_info.ip }}."
+
+  loop: "{{ db_list }}"
+  loop_control:
+    loop_var: db_info

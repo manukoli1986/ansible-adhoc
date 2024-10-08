@@ -1,53 +1,23 @@
-# tasks/main.yml
 ---
-- name: Iterate over each database server and perform operations
+- name: Verify the DB is available on all hosts
   block:
-    - name: Insert a test row into the database on {{ db_info.ip }}
-      community.mysql.mysql_query:
-        login_user: "{{ db_info.user }}"
-        login_password: "{{ db_info.password }}"
-        login_host: "{{ db_info.ip }}"
-        db: "{{ db_info.db_name }}"
-        query: "INSERT INTO test_table (test_column) VALUES ('test_data');"
+    - name: Check DB connectivity for each host
+      community.mysql.mysql_ping:
+        login_user: "{{ item.user }}"
+        login_password: "{{ item.password }}"
+        login_host: "{{ item.ip }}"
+        login_port: "{{ item.port }}"
+      loop: "{{ db_servers_info }}"
+      register: db_connectivity
 
-    - name: Select the test row from the database on {{ db_info.ip }}
-      community.mysql.mysql_query:
-        login_user: "{{ db_info.user }}"
-        login_password: "{{ db_info.password }}"
-        login_host: "{{ db_info.ip }}"
-        db: "{{ db_info.db_name }}"
-        query: "SELECT test_column FROM test_table WHERE test_column = 'test_data';"
-      register: query_result
-
-    - name: Verify the data was inserted correctly on {{ db_info.ip }}
+    - name: Assert DB is available on all hosts
       ansible.builtin.assert:
         that:
-          - query_result.rowcount == 1
-        fail_msg: "Failed to find the inserted data in the database on {{ db_info.ip }}."
+          - db_connectivity.results | selectattr('ping', 'equalto', True) | list | length == db_servers_info | length
+        fail_msg: "Database connectivity failed on one or more hosts."
 
-    - name: Delete the test row from the database on {{ db_info.ip }}
-      community.mysql.mysql_query:
-        login_user: "{{ db_info.user }}"
-        login_password: "{{ db_info.password }}"
-        login_host: "{{ db_info.ip }}"
-        db: "{{ db_info.db_name }}"
-        query: "DELETE FROM test_table WHERE test_column = 'test_data';"
+- name: Loop over MariaDB DBs with each host
+  include_tasks: loop.yml
+  vars:
+    db_list: "{{ db_servers_info }}"
 
-    - name: Ensure the data was deleted on {{ db_info.ip }}
-      community.mysql.mysql_query:
-        login_user: "{{ db_info.user }}"
-        login_password: "{{ db_info.password }}"
-        login_host: "{{ db_info.ip }}"
-        db: "{{ db_info.db_name }}"
-        query: "SELECT test_column FROM test_table WHERE test_column = 'test_data';"
-      register: delete_check
-
-    - name: Verify the data was deleted on {{ db_info.ip }}
-      ansible.builtin.assert:
-        that:
-          - delete_check.rowcount == 0
-        fail_msg: "Failed to delete the test data from the database on {{ db_info.ip }}."
-
-  loop: "{{ db_servers_info }}"
-  loop_control:
-    loop_var: db_info

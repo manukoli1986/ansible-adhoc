@@ -20,11 +20,21 @@
   become: true  # To run with sudo if needed
   gather_facts: yes
 
-  vars:
-    db_servers_info:
-      - { ip: "10.0.0.1", user: "root", password: "password1", db_name: "db1" }
-      - { ip: "10.0.0.2", user: "root", password: "password2", db_name: "db2" }
-      - { ip: "10.0.0.3", user: "root", password: "password3", db_name: "db3" }
-
   roles:
     - role: test_db  # Replace with your actual role name
+    
+  vars:
+  db_servers_info:
+    - ip: "db1.example.com"
+      port: 3306
+      user: "user1"
+      password: "password1"
+      db_name: "test_db1"
+      db_table: "test_table"
+    - ip: "db2.example.com"
+      port: 3306
+      user: "user2"
+      password: "password2"
+      db_name: "test_db2"
+      db_table: "test_table"
+
