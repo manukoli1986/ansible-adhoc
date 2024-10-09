@@ -1,0 +1,8 @@
+---
+db_servers_info:
+  - ip: "{{ db_ip | default('') }}"
+    port: "{{ db_port | default(3306) }}"
+    user: "{{ db_user | default('') }}"
+    password: "{{ db_password | default('') }}"
+    db_name: "{{ db_name | default('') }}"
+    db_table: "{{ db_table | default('') }}"

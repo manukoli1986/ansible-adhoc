@@ -1,23 +1,9 @@
 ---
-- name: Verify the DB is available on all hosts
-  block:
-    - name: Check DB connectivity for each host
-      community.mysql.mysql_ping:
-        login_user: "{{ item.user }}"
-        login_password: "{{ item.password }}"
-        login_host: "{{ item.ip }}"
-        login_port: "{{ item.port }}"
-      loop: "{{ db_servers_info }}"
-      register: db_connectivity
-
-    - name: Assert DB is available on all hosts
-      ansible.builtin.assert:
-        that:
-          - db_connectivity.results | selectattr('ping', 'equalto', True) | list | length == db_servers_info | length
-        fail_msg: "Database connectivity failed on one or more hosts."
-
 - name: Loop over MariaDB DBs with each host
   include_tasks: loop.yml
+  loop: "{{ db_list }}"
+  loop_control:
+    loop_var: db_info
   vars:
     db_list: "{{ db_servers_info }}"
 

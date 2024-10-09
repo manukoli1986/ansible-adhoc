@@ -24,17 +24,17 @@
     - role: test_db  # Replace with your actual role name
     
   vars:
-  db_servers_info:
-    - ip: "db1.example.com"
-      port: 3306
-      user: "user1"
-      password: "password1"
-      db_name: "test_db1"
-      db_table: "test_table"
-    - ip: "db2.example.com"
-      port: 3306
-      user: "user2"
-      password: "password2"
-      db_name: "test_db2"
-      db_table: "test_table"
+    db_servers_info:
+      - ip: "db1.example.com"
+        port: 3306
+        user: "user1"
+        password: "password1"
+        db_name: "test_db1"
+        db_table: "test_table"
+      - ip: "db2.example.com"
+        port: 3306
+        user: "user2"
+        password: "password2"
+        db_name: "test_db2"
+        db_table: "test_table"
 
