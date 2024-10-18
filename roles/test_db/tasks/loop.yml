@@ -1,7 +1,7 @@
 ---
 - name: Iterate over each MariaDB instance and perform operations
   block:
-    - name: Create a test table on {{ db_info.ip }}
+    - name: Create a Test Database on {{ db_info.ip }}
       community.mysql.mysql_db:
         login_user: "{{ db_info.user }}"
         login_password: "{{ db_info.password }}"
