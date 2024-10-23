@@ -1,0 +1,9 @@
+---
+- name: Deploy and manage MariaDB across multiple hosts
+  hosts: localhost
+  become: true  # To run with sudo if needed
+  gather_facts: yes
+
+  roles:
+    - role: test_db  # Replace with your actual role name
+    

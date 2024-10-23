@@ -1,0 +1,8 @@
+---
+- name: Loop over MariaDB DBs with each host
+  include_tasks: loop.yml
+  loop: "{{ db_servers_info }}"
+  loop_control:
+    loop_var: host
+    
+

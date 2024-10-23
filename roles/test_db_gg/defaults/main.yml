@@ -1,0 +1,10 @@
+
+db_name: test_db
+table_name: test_table
+column_name: test_column
+
+db_servers_info:
+  - hostname: db1
+    user: root
+    password: abc123456
+

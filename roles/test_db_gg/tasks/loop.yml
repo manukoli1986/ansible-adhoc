@@ -1,0 +1,40 @@
+- block:
+    - name: Create a Test Database
+      community.mysql.mysql_db:
+        name: "{{ db_name }}"
+        state: present
+
+    - name: Create an test table in the database
+      community.mysql.mysql_query:
+        query: "CREATE TABLE {{ table_name }} ({{ column_name }} VARCHAR(255));"
+
+    - name: Insert a test row into the database
+      community.mysql.mysql_query:
+        query: "INSERT INTO {{ table_name }} VALUES ('test_data');"
+
+    - name: Select the test row from the database
+      community.mysql.mysql_query:
+        query: "SELECT {{ column_name }} FROM {{ table_name }};"
+      register: query_result
+      failed_when: query_result.query_result[0][0].test_column != 'test_data'
+
+    - name: Debug query result
+      debug:
+        var: query_result
+
+    - name: Delete Database
+      community.mysql.mysql_db:
+        name: "{{ db_name }}"
+        state: absent
+
+
+  module_defaults:
+    community.mysql.mysql_query:
+      login_user: "{{ host.user }}"
+      login_password: "{{ host.password }}"
+      login_host: "{{ host.hostname }}"
+      login_db: "{{ db_name }}"
+    community.mysql.mysql_db:
+      login_user: "{{ host.user }}"
+      login_password: "{{ host.password }}"
+      login_host: "{{ host.hostname }}"
